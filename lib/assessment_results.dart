@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'menu.dart';
+import 'main.dart';
 
 class AssessmentResults extends StatelessWidget {
   const AssessmentResults({super.key});
@@ -9,28 +10,10 @@ class AssessmentResults extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // Green menu drawer
-      drawer: const MenuDrawer(),
-
       appBar: AppBar(
         backgroundColor: const Color(0xFFE7F8DE),
         elevation: 0,
-
-        // MENU BUTTON
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black,
-                size: 28,
-              ),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
+        automaticallyImplyLeading: false,
 
         actions: const [
           Icon(
@@ -60,7 +43,7 @@ class AssessmentResults extends StatelessWidget {
 
           child: Column(
             children: [
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
 
               // Assessment Results title
               Row(
@@ -83,7 +66,7 @@ class AssessmentResults extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 35),
+              const SizedBox(height: 20),
 
               // Risk Legend
               Row(
@@ -106,45 +89,80 @@ class AssessmentResults extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 45),
+              const SizedBox(height: 20),
 
               // Fatty Liver Risk
               const Text(
                 "Fatty Liver Risk",
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 25,
                   color: Colors.green,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
               const RiskCircle(
                 color: Colors.orange,
                 text: "Moderate\nRisk",
               ),
 
-              const SizedBox(height: 55),
+              const SizedBox(height: 20),
 
               // Cholesterol Risk
               const Text(
                 "Cholesterol Risk",
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 25,
                   color: Colors.green,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
               const RiskCircle(
                 color: Colors.red,
                 text: "High Risk",
               ),
 
-              const SizedBox(height: 45),
+              const SizedBox(height: 20),
+
+              // View Recommendations button below High Risk
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MainNavigationScreen(initialIndex: 2),
+                    ),
+                    (route) => false,
+                  );
+                },
+                icon: const Icon(Icons.star, color: Colors.white),
+                label: const Text(
+                  "View Recommendations",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF146B0B),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 14,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 2,
+                ),
+              ),
+
+              const SizedBox(height: 20),
 
               // Warning
               Container(

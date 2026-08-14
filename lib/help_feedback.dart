@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'send_feedback.dart';
+import 'report_problem.dart';
 
 class HelpFeedback extends StatelessWidget {
   const HelpFeedback({super.key});
@@ -59,7 +61,10 @@ class HelpFeedback extends StatelessWidget {
             helpItem(
               title: "Send feedback",
               onTap: () {
-                // Add feedback page here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SendFeedback()),
+                );
               },
             ),
 
@@ -69,7 +74,10 @@ class HelpFeedback extends StatelessWidget {
             helpItem(
               title: "Report a problem",
               onTap: () {
-                // Add report problem page here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReportProblem()),
+                );
               },
             ),
 
