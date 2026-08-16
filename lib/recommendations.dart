@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ai_chatbot.dart';
+import 'main.dart';
 
 class RecommendationsScreen extends StatefulWidget {
   const RecommendationsScreen({super.key});
@@ -17,12 +18,27 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> {
         backgroundColor: const Color(0xFFE5F8D8),
         elevation: 0,
         toolbarHeight: 70,
-        leading: Navigator.canPop(context)
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, color: Color(0xFF146B0B), size: 20),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            : null,
+        titleSpacing: 4,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Color(0xFF146B0B),
+            size: 20,
+          ),
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MainNavigationScreen(initialIndex: 0),
+                ),
+                (route) => false,
+              );
+            }
+          },
+        ),
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -43,9 +59,6 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> {
             ),
           ],
         ),
-        actions: [
-          const SizedBox(width: 8),
-        ],
       ),
       body: ListView(
         physics: const ClampingScrollPhysics(),
