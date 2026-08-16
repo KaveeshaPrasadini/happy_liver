@@ -136,21 +136,6 @@ class AssessmentResultPage extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Assessment result based on your Happy Liver habit evaluation.'),
-                  duration: Duration(seconds: 3),
-                ),
-              );
-            },
-            icon: const Icon(
-              Icons.info_outline_rounded,
-              size: 22,
-              color: darkGreen,
-            ),
-          ),
         ],
       ),
     );
