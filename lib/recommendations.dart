@@ -19,7 +19,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> {
         toolbarHeight: 70,
         leading: Navigator.canPop(context)
             ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+                icon: const Icon(Icons.arrow_back_ios_new, color: Color(0xFF146B0B), size: 20),
                 onPressed: () => Navigator.of(context).pop(),
               )
             : null,

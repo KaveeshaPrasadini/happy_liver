@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'recommendations.dart';
+import 'main.dart';
 import 'dart:math' as math;
 
 /// Compatibility wrapper for navigation
@@ -32,22 +32,30 @@ class AssessmentResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: pageBg,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildAppBar(context),
-            Expanded(
+      body: Column(
+        children: [
+          Container(
+            color: const Color(0xFFE5F8D8),
+            child: SafeArea(
+              bottom: false,
+              child: _buildAppBar(context),
+            ),
+          ),
+          Expanded(
+            child: SafeArea(
+              top: false,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(18, 8, 18, 28),
                 child: Column(
                   children: [
+                    const SizedBox(height: 5),
                     _buildGreeting(),
                     const SizedBox(height: 15),
 
                     // Main overall result gauge with vibrant gradient arc
                     _buildOverallRisk(),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
                     // Side-by-side Fatty Liver Risk & Cholesterol Risk Cards
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +93,7 @@ class AssessmentResultPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
                     // Overall insight card
                     _buildInsightCard(),
                     const SizedBox(height: 15),
@@ -97,15 +105,16 @@ class AssessmentResultPage extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildAppBar(BuildContext context) {
-    return SizedBox(
-      height: 58,
+    return Container(
+      color: const Color(0xFFE5F8D8),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       child: Row(
         children: [
           IconButton(
@@ -151,7 +160,7 @@ class AssessmentResultPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: paleGreen,
+        color: const Color(0xFFCFF7D3),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: const Color(0xFFD4EBD1)),
       ),
@@ -232,7 +241,7 @@ class AssessmentResultPage extends StatelessWidget {
           const Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'RISK GAUGE',
+              'OVERALL RISK',
               style: TextStyle(
                 color: darkGreen,
                 fontSize: 13,
@@ -367,11 +376,12 @@ class AssessmentResultPage extends StatelessWidget {
       height: 56,
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => const RecommendationsScreen(),
+              builder: (context) => const MainNavigationScreen(initialIndex: 2),
             ),
+            (route) => false,
           );
         },
         style: ElevatedButton.styleFrom(
@@ -671,6 +681,10 @@ class _GradientDonutPainter extends CustomPainter {
       radius: radius,
     );
 
+    // 7 o'clock = 120 degrees (2 * pi / 3), 5 o'clock = 60 degrees (via 300 degree sweep)
+    const startAngle = 2 * math.pi / 3;
+    const totalSweep = 5 * math.pi / 3;
+
     // Background track
     final background = Paint()
       ..color = gradientColors.first.withAlpha(30)
@@ -680,16 +694,16 @@ class _GradientDonutPainter extends CustomPainter {
 
     canvas.drawArc(
       rect,
-      -math.pi / 2,
-      math.pi * 2,
+      startAngle,
+      totalSweep,
       false,
       background,
     );
 
     // Gradient Progress Arc
     final gradient = SweepGradient(
-      startAngle: -math.pi / 2,
-      endAngle: -math.pi / 2 + math.pi * 2,
+      startAngle: startAngle,
+      endAngle: startAngle + totalSweep,
       colors: gradientColors,
     );
 
@@ -701,8 +715,8 @@ class _GradientDonutPainter extends CustomPainter {
 
     canvas.drawArc(
       rect,
-      -math.pi / 2,
-      math.pi * 2 * (score / 100),
+      startAngle,
+      totalSweep * (score / 100),
       false,
       progress,
     );
